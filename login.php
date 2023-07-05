@@ -52,7 +52,7 @@ if (isset($_POST['email'], $_POST['password'])) {
 
 $nohomenutzer = NoHome($pdo, $user_id);
 
-// Home als Startseite für alle zugänglich machen, außer für Nutzer mit No-Home Rolle
+// Home als Startseite für alle zugänglich machen, außer für Nutzer mit No-Homepage Rolle
 if ($nohomenutzer <= 0) {
             echo "<script>window.location.href = 'home.php';</script>";
             exit();
