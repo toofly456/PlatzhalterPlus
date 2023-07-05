@@ -164,7 +164,7 @@ if (!isset($_SESSION['id']) || !isset($_SESSION['email'])) {
                     if (strpos($item, $pp) === false) {
                         try {
                             $stmt = $pdo->prepare('INSERT INTO verlauf (usr, text, datum) VALUES (?, ?, ?)');
-                            $stmt->execute([$_SESSION['id'], $Ergebnis, $currentDateTime]);
+                            $stmt->execute([$_SESSION['id'], $Ergebnis, $modifiedDateTime]);
                         } catch (\PDOException $e) {
                             throw new \PDOException($e->getMessage(), (int) $e->getCode());
                         }
