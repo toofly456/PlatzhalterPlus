@@ -42,10 +42,10 @@ if (!isset($_SESSION['id'])) {
     </header>
     <main>
 
-        <div style="width: 100%;
+        <div style="width: 70%;
     justify-content: center;
     align-items: center;
-    text-align: center; width:auto;">
+    text-align: center;">
             <table>
 
                 <?php
@@ -70,7 +70,7 @@ if (!isset($_SESSION['id'])) {
                         <label type="text" name="auswahl">
                             <pre>
                                     <tr>
-                <td style="vertical-align: top; height: 100%; width: auto">
+                <td style="vertical-align: top; height: 100%; width: 70%">
                                 <?php
                                 echo ("</br>$output </br></br> ");
                                 print_r($command);
