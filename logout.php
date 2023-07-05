@@ -3,7 +3,7 @@
 // Überprüfe, ob die letzte Aktivitätszeit vorhanden ist
 if (isset($_SESSION['last_activity'])) {
     // Überprüfe, ob die Inaktivitätsdauer überschritten wurde (z.B. 30 Minuten)
-    $inactive_duration = 1800; // 30 Minuten in Sekunden (1800)
+    $inactive_duration = 3600; // 1 Stunde in Sekunden
     $current_time = time();
     $last_activity_time = $_SESSION['last_activity'];
 
