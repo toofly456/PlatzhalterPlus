@@ -98,9 +98,9 @@ if ($nohomenutzer <= 0) {
           try {
             $stmt = $pdo->prepare('INSERT INTO sql_code (user_name, user_id, titel, befehl, visible, datum) VALUES (?, ?, ?, ?, ?, ?)');
             $currentDateTime = date('Y-m-d H:i:s'); // Aktuelles Datum und Uhrzeit
-            //$modifiedDateTime = date('Y-m-d H:i:s', strtotime($currentDateTime . ' +2 hours')); // Datum um 2 Stunden nach hinten versetzt
+            $modifiedDateTime = date('Y-m-d H:i:s', strtotime($currentDateTime . ' +2 hours')); // Datum um 2 Stunden nach hinten versetzt
 
-            $stmt->execute([$email, $benutzer, $titel, $befehl, $null, $currentDateTime]);
+            $stmt->execute([$email, $benutzer, $titel, $befehl, $null, $modifiedDateTime]);
             echo '<h3>Die neue Textvorlage wurde erfolgreich gespeichert.</h3>';
             // echo "<script>window.location.href = 'menu.php';</script>";
             // exit();
@@ -156,9 +156,9 @@ if ($nohomenutzer <= 0) {
         try {
           $stmt = $pdo->prepare('INSERT INTO sql_code (user_name, user_id, titel, befehl, visible, datum) VALUES (?, ?, ?, ?, ?, ?)');
           $currentDateTime = date('Y-m-d H:i:s'); // Aktuelles Datum und Uhrzeit
-          //$modifiedDateTime = date('Y-m-d H:i:s', strtotime($currentDateTime . ' +2 hours')); // Datum um 2 Stunden nach hinten versetzt
+          $modifiedDateTime = date('Y-m-d H:i:s', strtotime($currentDateTime . ' +2 hours')); // Datum um 2 Stunden nach hinten versetzt
 
-          $stmt->execute([$_SESSION['email'], $_SESSION['id'], $titel, $befehl, $null, $currentDateTime]);
+          $stmt->execute([$_SESSION['email'], $_SESSION['id'], $titel, $befehl, $null, $modifiedDateTime]);
           echo "<script>window.location.href = 'menu.php';</script>";
           exit();
         } catch (\PDOException $e) {
@@ -250,7 +250,7 @@ if ($nohomenutzer <= 0) {
           }
           $anzahl = "SELECT COUNT(id) FROM platzhalter WHERE user_id = '$id'";
           foreach ($pdo->query($anzahl) as $row) {
-            $rows = 10 + $row['COUNT(id)'] * 3;
+            $rows = 12 + $row['COUNT(id)'] * 3;
           }
           ?>
           <textarea id="text" name="befehl" rows="<?php echo $rows; ?>" value="''" placeholder="SELECT * FROM... " cols=69 minlength="1" maxlength="2000" required></textarea>
