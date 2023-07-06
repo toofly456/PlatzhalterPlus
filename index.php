@@ -67,7 +67,7 @@
 
 ?>
 <body>
-<a href="index.html">
+<a href="index.php">
 			<div class="image-container">
 				<img id="logo" src="data:image/jpeg;base64,<?php echo $imageData; ?>" alt="PLatzhalterPlus" style="width: 40%;">
 			</div>
