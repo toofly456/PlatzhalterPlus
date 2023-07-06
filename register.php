@@ -408,7 +408,7 @@ if (isset($_POST['anmelden'])) {
 <body>
 	</br>
 	<form method="POST">
-		<a href="index.html">
+		<a href="index.php">
 			<div class="image-container">
 				<img id="logo" height="60" src="data:image/jpeg;base64,<?php echo $imageData; ?>" alt="PLatzhalterPlus">
 			</div>
