@@ -78,7 +78,7 @@
 	include "logo.php";
 	?>
 	<form action="login.php" method="POST">
-		<a href="index.html">
+		<a href="index.php">
 			<div class="image-container">
 				<img id="logo" height="60" src="data:image/jpeg;base64,<?php echo $imageData; ?>" alt="PLatzhalterPlus" style="height: 60px;">
 			</div>
