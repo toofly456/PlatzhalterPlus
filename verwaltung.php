@@ -3,7 +3,11 @@
 
 <head>
     <title>PlatzhalterPlus</title>
-    <link rel="stylesheet" type="text/css" href="bootstrap.css" />
+    <link rel="stylesheet" type="text/css" href="bootstrap.css">
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+    <link rel="manifest" href="/site.webmanifest">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta charset="UTF-8">
 
@@ -178,97 +182,97 @@ if (isUserAdmin($pdo, $userId)) {
 
 
         <form method="POST" style="width: auto;">
-    <table class="t">
-        <tr>
-            <th class="t" style="width: 20px;">Zeile</th>
-            <th class="t">Vorname</th>
-            <th class="t">Nachname</th>
-            <th class="t">Email</th>
-            <th class="t">Code</th>
-            <th class="t">Letzte Aktivität</th>
-            <th class="t">Rolle: No-Homepage</th>
-            <th class="t">Rolle: Content-Creator</th>
-            <th class="t">Rolle: Admin</th>
-            <th class="t">Aktiv</th>
-            <th class="t">Aktion</th>
-        </tr>
+            <table class="t">
+                <tr>
+                    <th class="t" style="width: 20px;">Zeile</th>
+                    <th class="t">Vorname</th>
+                    <th class="t">Nachname</th>
+                    <th class="t">Email</th>
+                    <th class="t">Code</th>
+                    <th class="t">Letzte Aktivität</th>
+                    <th class="t">Rolle: No-Homepage</th>
+                    <th class="t">Rolle: Content-Creator</th>
+                    <th class="t">Rolle: Admin</th>
+                    <th class="t">Aktiv</th>
+                    <th class="t">Aktion</th>
+                </tr>
 
-        <?php
-        $nutzer = getUSER($pdo);
-        $zeilennummer = 1;
+                <?php
+                $nutzer = getUSER($pdo);
+                $zeilennummer = 1;
 
-        foreach ($nutzer as $row) {
-            $user_id = $row['id'];
-            $nohomeid = "nohome_" . $user_id;
-            $userid = "user_" . $user_id;
-            $adminid = "admin_" . $user_id;
-            $activeid = "active_" . $user_id;
+                foreach ($nutzer as $row) {
+                    $user_id = $row['id'];
+                    $nohomeid = "nohome_" . $user_id;
+                    $userid = "user_" . $user_id;
+                    $adminid = "admin_" . $user_id;
+                    $activeid = "active_" . $user_id;
 
-            $active = getActive($pdo, $user_id);
-            $isActive = in_array('1', $active);
+                    $active = getActive($pdo, $user_id);
+                    $isActive = in_array('1', $active);
 
-            $active2 = active($pdo, $user_id);
-            $ActivUser = in_array('1', $active2);
+                    $active2 = active($pdo, $user_id);
+                    $ActivUser = in_array('1', $active2);
 
-            $roles = getRole($pdo, $user_id);
-            $isNoHomeChecked = in_array('3', $roles);
-            $isUserChecked = in_array('2', $roles);
-            $isAdminChecked = in_array('1', $roles);
-        ?>
-            <tr>
-                <td class="t" style="width: 20px;"><?php echo $zeilennummer; ?></td>
-                <td class="t"><?php echo $row['vorname']; ?></td>
-                <td class="t"><?php echo $row['nachname']; ?></td>
-                <td class="t"><?php echo $row['email']; ?></td>
-                <td class="t"><?php echo $row['code']; ?></td>
-                <td class="t">
-                    <?php
-                    echo $row['last_login'];
-                    $lastLogin = strtotime($row['last_login']);
-                    $twoWeeksAgo = strtotime('-2 weeks');
-                    if ($ActivUser == true) {
-                        if ($lastLogin > $twoWeeksAgo) {
-                            echo "</br></br>Status: 🟢";
-                        }
-                        if ($lastLogin < $twoWeeksAgo) {
-                            echo "</br></br>Status: 🟡";
-                        }
-                    } else if ($ActivUser == false) {
-                        echo "</br></br>Status: 🔴";
-                    }
-                    ?>
-                </td>
-                <td class="t">
-                    <input type="checkbox" name="<?php echo $nohomeid; ?>" value="yes" <?php if ($isNoHomeChecked && $isActive == true) {
-                                                                                                echo "checked";
-                                                                                            } ?> style="width: auto;">
-                </td>
-                <td class="t">
-                    <input type="checkbox" name="<?php echo $userid; ?>" value="yes" <?php if ($isUserChecked && $isActive == true) {
-                                                                                            echo "checked";
-                                                                                        } ?> style="width: auto;">
-                </td>
-                <td class="t">
-                    <input type="checkbox" name="<?php echo $adminid; ?>" value="yes" <?php if ($isAdminChecked && $isActive == true) {
-                                                                                                echo "checked";
-                                                                                            } ?> style="width: auto;">
-                </td>
-                <td class="t">
-                    <input type="checkbox" name="<?php echo $activeid; ?>" value="yes" <?php if ($ActivUser == true) {
-                                                                                                echo "checked";
-                                                                                            } ?> style="width: auto;">
-                </td>
+                    $roles = getRole($pdo, $user_id);
+                    $isNoHomeChecked = in_array('3', $roles);
+                    $isUserChecked = in_array('2', $roles);
+                    $isAdminChecked = in_array('1', $roles);
+                ?>
+                    <tr>
+                        <td class="t" style="width: 20px;"><?php echo $zeilennummer; ?></td>
+                        <td class="t"><?php echo $row['vorname']; ?></td>
+                        <td class="t"><?php echo $row['nachname']; ?></td>
+                        <td class="t"><?php echo $row['email']; ?></td>
+                        <td class="t"><?php echo $row['code']; ?></td>
+                        <td class="t">
+                            <?php
+                            echo $row['last_login'];
+                            $lastLogin = strtotime($row['last_login']);
+                            $twoWeeksAgo = strtotime('-2 weeks');
+                            if ($ActivUser == true) {
+                                if ($lastLogin > $twoWeeksAgo) {
+                                    echo "</br></br>Status: 🟢";
+                                }
+                                if ($lastLogin < $twoWeeksAgo) {
+                                    echo "</br></br>Status: 🟡";
+                                }
+                            } else if ($ActivUser == false) {
+                                echo "</br></br>Status: 🔴";
+                            }
+                            ?>
+                        </td>
+                        <td class="t">
+                            <input type="checkbox" name="<?php echo $nohomeid; ?>" value="yes" <?php if ($isNoHomeChecked && $isActive == true) {
+                                                                                                    echo "checked";
+                                                                                                } ?> style="width: auto;">
+                        </td>
+                        <td class="t">
+                            <input type="checkbox" name="<?php echo $userid; ?>" value="yes" <?php if ($isUserChecked && $isActive == true) {
+                                                                                                    echo "checked";
+                                                                                                } ?> style="width: auto;">
+                        </td>
+                        <td class="t">
+                            <input type="checkbox" name="<?php echo $adminid; ?>" value="yes" <?php if ($isAdminChecked && $isActive == true) {
+                                                                                                    echo "checked";
+                                                                                                } ?> style="width: auto;">
+                        </td>
+                        <td class="t">
+                            <input type="checkbox" name="<?php echo $activeid; ?>" value="yes" <?php if ($ActivUser == true) {
+                                                                                                    echo "checked";
+                                                                                                } ?> style="width: auto;">
+                        </td>
 
-                <td class="t" style="vertical-align: middle;">
-                    <button class="button-17" role="button" type="submit" name="senden" value="<?php echo $row['id']; ?>">Speichern</button>
-                </td>
-            </tr>
-        <?php
-            $zeilennummer++;
-        }
-        ?>
-    </table>
-</form>
+                        <td class="t" style="vertical-align: middle;">
+                            <button class="button-17" role="button" type="submit" name="senden" value="<?php echo $row['id']; ?>">Speichern</button>
+                        </td>
+                    </tr>
+                <?php
+                    $zeilennummer++;
+                }
+                ?>
+            </table>
+        </form>
 
         <div>
             </br>
