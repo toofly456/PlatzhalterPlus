@@ -78,10 +78,35 @@ function getEmail($pdo, $benutzer)
     return $stmt->fetchColumn();
 }
 
+function generatePassword() {
+    $length = 16; // Länge des Kennworts (Sie können dies anpassen)
+    $characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$%*~;';
+    
+    $password = '';
+    while (strlen($password) < $length) {
+        $password .= $characters[random_int(0, strlen($characters) - 1)];
+    }
+    
+    if (isPasswordValid($password)) {
+        return $password;
+    } else {
+        return generatePassword();
+    }
+}
+
+function isPasswordValid($password) {
+    // Überprüfen, ob das Kennwort die Anforderungen erfüllt
+    if (preg_match('/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%*~;])[A-Za-z\d!@#$%*~;]{8,}$/', $password)) {
+        return true;
+    } else {
+        return false;
+    }
+}
 
 function searchForKeywords($item, $pdo)
 {
-    $passwort = base64_encode(random_bytes(18)) . "#";
+    $passwort = generatePassword();
+
 
     $words = explode(' ', $item);
 
