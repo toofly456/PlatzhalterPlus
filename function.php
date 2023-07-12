@@ -1,7 +1,7 @@
 <?php
 $user_id = $_SESSION['id'];
 
-#No-Home Rolle
+#No-Home Rolle 
 function NoHome($pdo, $user_id)
 {
     $stmt = $pdo->prepare("SELECT COUNT(rolle_id) FROM role WHERE uid = ? AND rolle_id = '3' AND active = '1'");
@@ -55,6 +55,26 @@ function getSqltitle2($pdo, $user_id, $id)
     return $stmt->fetchAll(PDO::FETCH_COLUMN);
 }
 
+function Vorgsetzteranzahl($pdo, $user_id)
+{
+    $stmt = $pdo->prepare("SELECT COUNT(vorgesetzter) FROM orga WHERE uid = ?");
+    $stmt->execute([$user_id]);
+    return $stmt->fetchColumn();
+}
+
+function MitarbeiteruidActiv($pdo, $user_id)
+{
+    $stmt = $pdo->prepare("SELECT o.uid FROM orga o INNER JOIN users u ON u.id = o.uid WHERE o.vorgesetzter = ? AND u.active = 1");
+    $stmt->execute([$user_id]);
+    return $stmt->fetchAll(PDO::FETCH_COLUMN);
+}
+
+function MitarbeiteruidInactiv($pdo, $user_id)
+{
+    $stmt = $pdo->prepare("SELECT o.uid FROM orga o INNER JOIN users u ON u.id = o.uid WHERE o.vorgesetzter = ? AND u.active = 0");
+    $stmt->execute([$user_id]);
+    return $stmt->fetchAll(PDO::FETCH_COLUMN);
+}
 
 function Code(PDO $pdo, $id)
 {
