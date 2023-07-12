@@ -36,6 +36,8 @@
             vertical-align: top;
         }
     </style>
+
+    </style>
 </head>
 
 <?php
@@ -53,6 +55,30 @@ $userId = $_SESSION['id'];
 
 // Verwaltungsfunktionen nur für Administratoren zugänglich machen
 if (isUserAdmin($pdo, $userId)) {
+
+
+//new code generated
+    $newcode = base64_encode(random_bytes(18));
+    if (isset($_POST['nc'])) {
+        $user_id = $_POST['nc'];
+    try {
+        $stmt = $pdo->prepare("UPDATE users u SET u.code = ? WHERE u.id = ?;");
+        $stmt->execute([$newcode, $user_id]);
+        $code2 = $stmt->fetchColumn();
+    } catch (\PDOException $e) {
+        throw new \PDOException($e->getMessage(), (int) $e->getCode());
+    }
+}
+    if (isset($_POST['nc'])) {
+        $user_id = $_POST['nc'];
+    try {
+        $stmt = $pdo->prepare("DELETE FROM orga WHERE `orga`.`uid` = ?;");
+        $stmt->execute([$user_id]);
+        $code2 = $stmt->fetchColumn();
+    } catch (\PDOException $e) {
+        throw new \PDOException($e->getMessage(), (int) $e->getCode());
+    }
+}
 
 
     if (isset($_POST['senden'])) {
@@ -184,10 +210,12 @@ if (isUserAdmin($pdo, $userId)) {
         <form method="POST" style="width: auto;">
             <table class="t">
                 <tr>
-                    <th class="t" style="width: 20px;">Zeile</th>
+                    <th class="t" style="width: 20px;">User IDs</th>
                     <th class="t">Vorname</th>
                     <th class="t">Nachname</th>
                     <th class="t">Email</th>
+                    <th class="t">Vorgesetzten Anzahl</th>
+                    <th class="t">Mitarbeiter User-IDs</th>
                     <th class="t">Code</th>
                     <th class="t">Letzte Aktivität</th>
                     <th class="t">Rolle: No-Homepage</th>
@@ -198,8 +226,8 @@ if (isUserAdmin($pdo, $userId)) {
                 </tr>
 
                 <?php
+
                 $nutzer = getUSER($pdo);
-                $zeilennummer = 1;
 
                 foreach ($nutzer as $row) {
                     $user_id = $row['id'];
@@ -218,13 +246,38 @@ if (isUserAdmin($pdo, $userId)) {
                     $isNoHomeChecked = in_array('3', $roles);
                     $isUserChecked = in_array('2', $roles);
                     $isAdminChecked = in_array('1', $roles);
+
+
+                    $vorgsetzteranzahl = Vorgsetzteranzahl($pdo, $user_id);
+
+                    $mitarbeiteruidActiv = MitarbeiteruidActiv($pdo, $user_id);
+                    $mitarbeiteruidInactiv = MitarbeiteruidInactiv($pdo, $user_id);
+
+
                 ?>
                     <tr>
-                        <td class="t" style="width: 20px;"><?php echo $zeilennummer; ?></td>
+                        <td class="t" style="width: 20px;"><?php echo $row['id']; ?></td>
                         <td class="t"><?php echo $row['vorname']; ?></td>
                         <td class="t"><?php echo $row['nachname']; ?></td>
                         <td class="t"><?php echo $row['email']; ?></td>
-                        <td class="t"><?php echo $row['code']; ?></td>
+                        <td class="t"><?php echo $vorgsetzteranzahl; ?></td>
+                        <td class="t"></br>
+                            <?php if (!empty($mitarbeiteruidActiv)) {
+                                if (!empty($mitarbeiteruidActiv)) {
+                                echo implode(', ', $mitarbeiteruidActiv);
+                            }
+                                if (!empty($mitarbeiteruidInactiv)) {
+                                    echo "<p style='color: red;'>" . implode(', ', $mitarbeiteruidInactiv);
+                            } 
+                        }else {
+                                echo "<b>-</b>";
+                            } ?><br />
+                        </br></td>
+
+
+                        <td class="t"><?php echo $row['code']; ?></br></br>
+                            <button style="width: 100%; font-size: 12px;" role="button" type="submit" name="nc" value="<?php echo $row['id']; ?>" onclick="return confirm('Achtung: Der Code wird geändert und dadurch wird dieser Nutzer aus allen Orgas als Mitarbeiter entfernt. Möchtest du trotzdem fortfahren?')" formnovalidate>Neuen Code generieren</button>
+                        </td>
                         <td class="t">
                             <?php
                             echo $row['last_login'];
@@ -264,11 +317,10 @@ if (isUserAdmin($pdo, $userId)) {
                         </td>
 
                         <td class="t" style="vertical-align: middle;">
-                            <button class="button-17" role="button" type="submit" name="senden" value="<?php echo $row['id']; ?>">Speichern</button>
+                            <button class="button-17" style="width: 100%; font-size: 12px;" role="button" type="submit" name="senden" value="<?php echo $row['id']; ?>">Speichern</button>
                         </td>
                     </tr>
                 <?php
-                    $zeilennummer++;
                 }
                 ?>
             </table>
@@ -280,6 +332,7 @@ if (isUserAdmin($pdo, $userId)) {
             </br>
         </div>
 
+        <!-- Bilder in Datenbank ablegen -->
         <form method="POST" style="width: 90%;" enctype="multipart/form-data">
             </br>
             <label for="bilder" style="margin-left: 5%;">Neue Bilder in Datenbank hinterlegen:</label>
