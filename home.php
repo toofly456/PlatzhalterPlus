@@ -117,6 +117,14 @@ if ($nohomenutzer <= 0) {
 
       if (isset($_POST['platz'])) {
         $neu = strtolower(trim($_POST['neu']));
+
+          // Check if the placeholder contains only one word
+  if (strpos($neu, ' ') !== false) {
+    $_SESSION['error'] = 'Ein Wort pro Platzhalter.';
+    echo "<script>window.location.href = 'home.php?error=Ein Wort pro Platzhalter';</script>";
+    exit();
+  } else { 
+
         // Check if the Platzhalter already exists
         $stmt = $pdo->prepare('SELECT COUNT(*) FROM platzhalter WHERE user_id = ? AND name LIKE ?');
         $stmt->execute([$benutzer, $neu]);
@@ -136,6 +144,7 @@ if ($nohomenutzer <= 0) {
           exit();
         }
       }
+    }
     }
   } else {
 
@@ -173,6 +182,12 @@ if ($nohomenutzer <= 0) {
 
     if (isset($_POST['platz'])) {
       $neu = strtolower(trim($_POST['neu']));
+      // Check if the placeholder contains only one word
+if (strpos($neu, ' ') !== false) {
+$_SESSION['error'] = 'Ein Wort pro Platzhalter.';
+echo "<script>window.location.href = 'home.php?error=Ein Wort pro Platzhalter';</script>";
+exit();
+} else { 
       // Check if the Platzhalter already exists
       $stmt = $pdo->prepare('SELECT COUNT(*) FROM platzhalter WHERE user_id = ? AND name LIKE ?');
       $stmt->execute([$_SESSION['id'], $neu]);
@@ -191,6 +206,7 @@ if ($nohomenutzer <= 0) {
         echo "<script>window.location.href = 'home.php?error=Platzhalter existiert bereits';</script>";
         exit();
       }
+    }
     }
   }
 ?>
